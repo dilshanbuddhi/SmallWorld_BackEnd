@@ -19,4 +19,13 @@ public class PlaceCategory {
     @Column(unique = true)
     private String name;
     private String description;
+
+    public PlaceCategory(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Place> places = new java.util.ArrayList<>();
 }
