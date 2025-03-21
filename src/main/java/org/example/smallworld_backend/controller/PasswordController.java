@@ -90,7 +90,7 @@ public class PasswordController {
                 UserDTO exuser = userService.searchUser(userDTO.getEmail());
                 exuser.setPassword(userDTO.getPassword());
                 System.out.println("updatePassword");
-                return "Password updated for "+exuser;
+                return "Password updated for "+exuser; // meka gahanna oneee
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

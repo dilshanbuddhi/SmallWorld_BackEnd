@@ -1,8 +1,8 @@
 package org.example.smallworld_backend.controller;
 
-import org.example.smallworld_backend.dto.PlaceDTO;
+import org.example.smallworld_backend.dto.HotelDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
-import org.example.smallworld_backend.service.PlaceService;
+import org.example.smallworld_backend.service.HotelService;
 import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,37 +20,36 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/place")
-@CrossOrigin(origins = "*" , allowedHeaders = "*")
-public class PlaceController {
-
+@RequestMapping("/api/v1/hotel")
+@CrossOrigin
+public class HotelController {
     @Autowired
-    private PlaceService placeService;
+    private HotelService hotelService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> savePlaceCategory(@RequestParam("name") String name,
-                                                         @RequestParam("categoryID") String categoryID,
-                                                         @RequestParam("description") String description,
-                                                         @RequestParam("location") String location,
-                                                         @RequestParam("latitude") String latitude,
-                                                         @RequestParam("longitude") String longitude,
-                                                         @RequestParam("imageFiles") List<
-                                                                 MultipartFile> imageFiles) {
+    public ResponseEntity<ResponseDTO> saveHotel(@RequestParam("name") String name,
+                                                 @RequestParam("placeID") String placeID,
+                                                 @RequestParam("description") String description,
+                                                 @RequestParam("location") String location,
+                                                 @RequestParam("latitude") String latitude,
+                                                 @RequestParam("longitude") String longitude,
+                                                 @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+
         try {
-            PlaceDTO place = new PlaceDTO();
-            place.setName(name);
-            place.setCategoryID(categoryID);
-            place.setDescription(description);
-            place.setLocation(location);
-            place.setLatitude(latitude);
-            place.setLongitude(longitude);
+            HotelDTO hotelDTO = new HotelDTO();
+            hotelDTO.setName(name);
+            hotelDTO.setDescription(description);
+            hotelDTO.setLocation(location);
+            hotelDTO.setLatitude(latitude);
+            hotelDTO.setLongitude(longitude);
+            hotelDTO.setPlaceID(placeID);
 
             List<String> imagePaths = new ArrayList<>();
             if (imageFiles != null && !imageFiles.isEmpty()) {
                 for (MultipartFile file : imageFiles) {
                     if (!file.isEmpty()) {
                         String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                        String uploadDir = "uploads/places/";
+                        String uploadDir = "uploads/hotels/";
 
                         File directory = new File(uploadDir);
                         if (!directory.exists()) {
@@ -64,23 +63,21 @@ public class PlaceController {
                     }
                 }
             }
-            place.setImage(imagePaths);
+            hotelDTO.setImage(imagePaths);
 
-            int res = placeService.savePlace(place);
+            int res = hotelService.saveHotel(hotelDTO);
+
             switch (res) {
-                case VarList.Created -> {
-                    return ResponseEntity.status(HttpStatus.CREATED)
-                            .body(new ResponseDTO(VarList.Created, "Success", null));
-                }
-                case VarList.Not_Acceptable -> {
-                    return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-                            .body(new ResponseDTO(VarList.Not_Acceptable, "Place Already Used", null));
+                case VarList.OK -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
                 }
                 default -> {
                     return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                             .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -88,10 +85,10 @@ public class PlaceController {
         }
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDTO> deletePlace(@RequestParam("placeID") Long placeID) {
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDTO> updateHotel(@RequestBody HotelDTO hotel) {
         try {
-            int res = placeService.deletePlace(placeID);
+            int res = hotelService.updateHotel(hotel);
             switch (res) {
                 case VarList.OK -> {
                     return ResponseEntity.status(HttpStatus.OK)
@@ -106,37 +103,35 @@ public class PlaceController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<ResponseDTO> updatePlace(@RequestBody PlaceDTO place) {
-        try {
-            int res = placeService.updatePlace(place);
-            switch (res) {
-                case VarList.OK -> {
-                    return ResponseEntity.status(HttpStatus.OK)
-                            .body(new ResponseDTO(VarList.OK, "Success", null));
-                }
-                default -> {
-                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
-                }
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
-                    }
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<ResponseDTO> getAllPlace() {
+    public ResponseEntity<ResponseDTO> getAllHotel() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(VarList.OK, "Success", placeService.getAllPlace()));
+                    .body(new ResponseDTO(VarList.OK, "Success", hotelService.getAllHotel()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
-
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDTO> deleteHotel(@RequestParam("hotelID") Long hotelID) {
+        try {
+            int res = hotelService.deleteHotel(hotelID);
+            switch (res) {
+                case VarList.OK -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 }

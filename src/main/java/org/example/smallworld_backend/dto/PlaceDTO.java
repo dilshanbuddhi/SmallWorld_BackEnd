@@ -30,4 +30,14 @@ public class PlaceDTO {
         this.longitude = longitude;
         this.image = image;
     }
+
+    public PlaceDTO(String id, String name, String categoryID, String description, String location, String latitude, String longitude) {
+        this.id = id;
+        this.name = name;
+        this.categoryID = categoryID;
+        this.description = description;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

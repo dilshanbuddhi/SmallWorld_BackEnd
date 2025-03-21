@@ -1,6 +1,5 @@
 package org.example.smallworld_backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,37 +7,45 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Place {
+
+public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
     @ManyToOne
-    @JoinColumn(name = "category_id")
-    @JsonIgnore
-    private PlaceCategory category;
+    private Place placeID;
+    private String name;
     private String description;
     private String location;
     private String latitude;
     private String longitude;
-
     @ElementCollection
-    @CollectionTable(name = "place_images", joinColumns = @JoinColumn(name = "place_id"))
-    @Column(name = "image_path")
+    @CollectionTable(name = "hotel_images",
+            joinColumns = @JoinColumn(name = "hotel_id"))
     private List<String> image;
 
-    public Place(String name, PlaceCategory category, String description, String location, String latitude, String longitude, List<String> image) {
+    public Hotel(Place placeID, String name, String description, String location, String latitude, String longitude, List<String> image) {
+        this.placeID = placeID;
         this.name = name;
-        this.category = category;
         this.description = description;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
         this.image = image;
+    }
+
+    public Hotel(Long id, Place placeID, String name, String description, String location, String latitude, String longitude) {
+        this.id = id;
+        this.placeID = placeID;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

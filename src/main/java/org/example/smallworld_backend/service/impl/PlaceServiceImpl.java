@@ -50,13 +50,33 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public int deletePlace(String placeID) {
+    public int deletePlace(Long placeID) {
         try {
             placeRepository.deleteById(Long.valueOf(placeID));
             return VarList.OK;
         } catch (Exception e) {
             e.printStackTrace();
             return VarList.Bad_Gateway;
+        }
+    }
+
+    @Override
+    public int updatePlace(PlaceDTO place) {
+        try {
+            placeRepository.save(modelMapper.map(place, Place.class));
+            return VarList.OK;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return VarList.Bad_Gateway;
+        }
+    }
+
+    @Override
+    public Object getAllPlace() {
+        try {
+            return placeRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
