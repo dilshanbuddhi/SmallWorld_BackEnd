@@ -74,6 +74,7 @@ public class PlaceCategoryController {
                     return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                             .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
                 }
+                //kk
             }
         }catch (Exception e) {
             throw new RuntimeException(e);
