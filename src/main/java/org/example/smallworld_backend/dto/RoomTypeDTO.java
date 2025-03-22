@@ -15,4 +15,10 @@ public class RoomTypeDTO {
     private String room_type;
     private String description;
     private List<String> amenities;
+
+    public RoomTypeDTO(String room_type, String description, List<String> amenities) {
+        this.room_type = room_type;
+        this.description = description;
+        this.amenities = amenities;
+    }
 }

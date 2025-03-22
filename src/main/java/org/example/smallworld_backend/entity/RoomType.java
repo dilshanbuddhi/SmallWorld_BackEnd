@@ -22,4 +22,10 @@ public class RoomType {
     @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "room_type_id"))
     @Column(name = "amenities")
     private List<String> amenities;
+
+    public RoomType(String room_type, String description, List<String> amenities) {
+        this.room_type = room_type;
+        this.description = description;
+        this.amenities = amenities;
+    }
 }

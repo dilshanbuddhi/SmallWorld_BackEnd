@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Service
 @Transactional
@@ -21,13 +22,50 @@ public class RoomTypeServiceIMPL implements RoomTypeService {
     @Override
     public int saveRoomType(RoomTypeDTO roomTypeDTO) {
         try{
-            if (roomTypeRepository.existsById(roomTypeDTO.getId())) {
+         /*   if (roomTypeRepository.existsByRoom_type(roomTypeDTO.getRoom_type())){
+
                 return VarList.Bad_Gateway;
-            }
+            }*/
             roomTypeRepository.save(modelMapper.map(roomTypeDTO, RoomType.class));
             return VarList.OK;
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public int updateRoomType(RoomTypeDTO roomTypeDTO) {
+        try{
+            if (roomTypeRepository.existsById(roomTypeDTO.getId())){
+                roomTypeRepository.save(modelMapper.map(roomTypeDTO, RoomType.class));
+                return VarList.OK;
+            }
+            return VarList.Bad_Request;
+
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public int deleteRoomType(Long roomTypeID) {
+        try{
+            if (!roomTypeRepository.existsById(roomTypeID)){
+                return VarList.Bad_Request;
+            }
+            roomTypeRepository.deleteById(Long.valueOf(roomTypeID));
+            return VarList.OK;
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Object getAllRoomType() {
+        try {
+            return roomTypeRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
