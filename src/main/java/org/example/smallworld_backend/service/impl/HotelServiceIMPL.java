@@ -66,6 +66,7 @@ public class HotelServiceIMPL implements HotelService {
     public int deleteHotel(Long hotelID) {
         try {
             hotelRepository.deleteById(Long.valueOf(hotelID));
+
             return VarList.OK;
         } catch (Exception e) {
             e.printStackTrace();

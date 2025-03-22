@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class PlaceCategory {
         this.name = name;
         this.description = description;
     }
-
+@JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private java.util.List<Place> places = new java.util.ArrayList<>();
 }
