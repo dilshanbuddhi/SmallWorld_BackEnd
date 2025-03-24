@@ -1,7 +1,9 @@
 package org.example.smallworld_backend.dto;
 
-import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 @AllArgsConstructor

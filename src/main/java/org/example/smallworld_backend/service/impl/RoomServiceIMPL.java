@@ -1,22 +1,15 @@
 package org.example.smallworld_backend.service.impl;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.example.smallworld_backend.dto.RoomDTO;
-import org.example.smallworld_backend.entity.Hotel;
 import org.example.smallworld_backend.entity.Room;
-import org.example.smallworld_backend.entity.RoomType;
 import org.example.smallworld_backend.repo.HotelRepository;
 import org.example.smallworld_backend.repo.RoomRepository;
 import org.example.smallworld_backend.repo.RoomTypeRepository;
-import org.example.smallworld_backend.service.HotelService;
 import org.example.smallworld_backend.service.RoomService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 public class RoomServiceIMPL implements RoomService {

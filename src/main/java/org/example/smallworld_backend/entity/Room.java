@@ -1,12 +1,10 @@
 package org.example.smallworld_backend.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalIdCache;
 
 @Entity
 @AllArgsConstructor

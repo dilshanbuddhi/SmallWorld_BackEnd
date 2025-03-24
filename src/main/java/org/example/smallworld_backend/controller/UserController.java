@@ -1,7 +1,6 @@
 package org.example.smallworld_backend.controller;
 
 import jakarta.validation.Valid;
-
 import org.example.smallworld_backend.dto.AuthDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.dto.UserDTO;

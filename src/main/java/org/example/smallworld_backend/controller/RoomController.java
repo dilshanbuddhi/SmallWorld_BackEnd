@@ -1,6 +1,5 @@
 package org.example.smallworld_backend.controller;
 
-import lombok.Getter;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.dto.RoomDTO;
 import org.example.smallworld_backend.service.RoomService;

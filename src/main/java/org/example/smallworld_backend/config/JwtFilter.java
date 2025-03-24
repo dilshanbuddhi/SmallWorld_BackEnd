@@ -7,7 +7,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.example.smallworld_backend.service.impl.UserServiceImpl;
 import org.example.smallworld_backend.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;

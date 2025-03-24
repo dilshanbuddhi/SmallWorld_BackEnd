@@ -5,7 +5,6 @@ import org.example.smallworld_backend.dto.PlaceCategoryDTO;
 import org.example.smallworld_backend.entity.PlaceCategory;
 import org.example.smallworld_backend.repo.PlaceCategoryRepository;
 import org.example.smallworld_backend.service.PlaceCategoryService;
-import org.example.smallworld_backend.service.PlaceCategoryService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class PlaceCategoryIServiceMPL implements PlaceCategoryService {
         if (placeCategoryRepository.existsPlaceCategoriesByName(placeCt.getName())) {
             return VarList.Not_Acceptable;
         }else {
-            placeCategoryRepository.save(modelMapper.map(placeCt, org.example.smallworld_backend.entity.PlaceCategory.class));
+            placeCategoryRepository.save(modelMapper.map(placeCt, PlaceCategory.class));
             return VarList.Created;
         }
     }

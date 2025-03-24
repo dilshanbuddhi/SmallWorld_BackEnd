@@ -5,7 +5,6 @@ import org.example.smallworld_backend.entity.Hotel;
 import org.example.smallworld_backend.repo.HotelRepository;
 import org.example.smallworld_backend.repo.PlaceRepository;
 import org.example.smallworld_backend.service.HotelService;
-import org.example.smallworld_backend.service.PlaceService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

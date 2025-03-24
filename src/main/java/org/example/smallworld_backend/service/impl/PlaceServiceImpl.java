@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 public class PlaceServiceImpl implements PlaceService {
@@ -28,15 +26,12 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public int savePlace(PlaceDTO place) {
         try {
-            // Check if place already exists with the same name and location
            /* Optional<Place> existingPlace = placeRepository.findByNameAndLocation(place.getName(), place.getLocation());
             if (existingPlace.isPresent()) {
                 return VarList.Not_Acceptable;
             }*/
+//hj
 
-            // Map DTO to entity
-           /* Place placeEntity = modelMapper.map(place, Place.class);
-            placeEntity.setCategory(placeRepository.findBy(place.getCategoryID()).get());*/
             Place placeEntity = new Place(place.getName(), placeCategoryRepository.findById(place.getCategoryID()).get(), place.getDescription(), place.getLocation(), place.getLatitude(), place.getLongitude(), place.getImage());
 
             // Save the place
