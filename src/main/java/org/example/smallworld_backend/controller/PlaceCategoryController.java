@@ -2,7 +2,7 @@ package org.example.smallworld_backend.controller;
 
 import org.example.smallworld_backend.dto.PlaceCategoryDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
-import org.example.smallworld_backend.service.PlaceCategory;
+import org.example.smallworld_backend.service.PlaceCategoryService;
 import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Transactional
 public class PlaceCategoryController {
     @Autowired
-    private PlaceCategory placeCategory;
+    private PlaceCategoryService placeCategory;
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> savePlaceCategory(@RequestBody PlaceCategoryDTO placeCt) {
         try {
@@ -40,11 +40,11 @@ public class PlaceCategoryController {
         }
     }
 
-    @DeleteMapping("/delete/{name}")
-    public ResponseEntity<ResponseDTO> deletePlaceCategory(@PathVariable String name) {
-        System.out.println(name + "delete");
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDTO> deletePlaceCategory(@PathVariable String id) {
+        System.out.println(id + "delete");
         try {
-           int res = placeCategory.deletePlaceCategory(name);
+           int res = placeCategory.deletePlaceCategory(id);
             switch (res) {
                 case VarList.OK -> {
                     return ResponseEntity.status(HttpStatus.OK)

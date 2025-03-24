@@ -43,4 +43,29 @@ public class GuidServiceIMPL implements GuidService {
         }
     }
 
+    @Override
+    public int updateGuid(GuidDTO guidDTO) {
+        try {
+            Guid guid = modelMapper.map(guidDTO, Guid.class);
+            guid.setUser(userRepository.findByEmail("dilshan@gmail.com"));
+            guid.setCertifications(guidDTO.getCertificates());
+            guidRepository.save(guid);
+            return VarList.OK;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public int deleteGuid(String email) {
+        try {
+           // Guid guid = guidRepository.findByEmail(email);
+            guidRepository.deleteByEmail(email);
+            return VarList.OK;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
 }

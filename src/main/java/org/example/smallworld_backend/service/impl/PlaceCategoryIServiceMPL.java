@@ -2,8 +2,10 @@ package org.example.smallworld_backend.service.impl;
 
 
 import org.example.smallworld_backend.dto.PlaceCategoryDTO;
+import org.example.smallworld_backend.entity.PlaceCategory;
 import org.example.smallworld_backend.repo.PlaceCategoryRepository;
-import org.example.smallworld_backend.service.PlaceCategory;
+import org.example.smallworld_backend.service.PlaceCategoryService;
+import org.example.smallworld_backend.service.PlaceCategoryService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class PlaceCategoryIServiceMPL implements PlaceCategory {
+public class PlaceCategoryIServiceMPL implements PlaceCategoryService {
     @Autowired
     private PlaceCategoryRepository placeCategoryRepository;
     @Autowired
@@ -27,9 +29,9 @@ public class PlaceCategoryIServiceMPL implements PlaceCategory {
     }
 
     @Override
-    public int deletePlaceCategory(String name) {
-       if (placeCategoryRepository.existsPlaceCategoriesByName(name)) {
-           placeCategoryRepository.deleteByName(name);
+    public int deletePlaceCategory(String id) {
+       if (placeCategoryRepository.existsById(Long.valueOf(id))) {
+           placeCategoryRepository.deleteById(String.valueOf(Long.valueOf(id)));
            return VarList.OK;
        }else {
            return VarList.Bad_Gateway;
@@ -38,8 +40,9 @@ public class PlaceCategoryIServiceMPL implements PlaceCategory {
 
     @Override
     public int updatePlaceCategory(PlaceCategoryDTO placeCt) {
-        if (placeCategoryRepository.existsPlaceCategoriesByName(placeCt.getName())) {
-            placeCategoryRepository.save(modelMapper.map(placeCt, org.example.smallworld_backend.entity.PlaceCategory.class));
+        if (placeCategoryRepository.existsById(placeCt.getId())) {
+            System.out.println(placeCt.getId() + " " + placeCt.getName());
+            placeCategoryRepository.update( placeCt.getName(),placeCt.getDescription(), placeCt.getId());
             return VarList.OK;
         }else {
             return VarList.Bad_Gateway;

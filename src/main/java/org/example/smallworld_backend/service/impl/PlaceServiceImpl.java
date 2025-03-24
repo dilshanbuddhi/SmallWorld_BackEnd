@@ -4,7 +4,6 @@ import org.example.smallworld_backend.dto.PlaceDTO;
 import org.example.smallworld_backend.entity.Place;
 import org.example.smallworld_backend.repo.PlaceCategoryRepository;
 import org.example.smallworld_backend.repo.PlaceRepository;
-import org.example.smallworld_backend.service.PlaceCategory;
 import org.example.smallworld_backend.service.PlaceService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
