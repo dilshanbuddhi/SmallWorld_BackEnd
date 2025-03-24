@@ -20,7 +20,7 @@ public class Place {
     private String name;
     @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
+   // @JsonIgnore
     private PlaceCategory category;
     private String description;
     private String location;
