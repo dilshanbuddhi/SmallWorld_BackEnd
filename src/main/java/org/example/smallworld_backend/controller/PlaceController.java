@@ -100,6 +100,7 @@ public class PlaceController {
                 default -> {
                     return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                             .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                    //dghvhfjh
                 }
             }
         } catch (Exception e) {
