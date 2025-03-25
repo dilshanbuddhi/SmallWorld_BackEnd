@@ -8,16 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/place")
@@ -35,7 +26,7 @@ public class PlaceController {
                                                          @RequestParam("latitude") String latitude,
                                                          @RequestParam("longitude") String longitude,
                                                          @RequestParam("imageFiles") List<
-                                                                 MultipartFile> imageFiles) {
+                                                                 String> imageFiles) {
         try {
             PlaceDTO place = new PlaceDTO();
             place.setName(name);
@@ -44,27 +35,7 @@ public class PlaceController {
             place.setLocation(location);
             place.setLatitude(latitude);
             place.setLongitude(longitude);
-
-            List<String> imagePaths = new ArrayList<>();
-            if (imageFiles != null && !imageFiles.isEmpty()) {
-                for (MultipartFile file : imageFiles) {
-                    if (!file.isEmpty()) {
-                        String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                        String uploadDir = "uploads/places/";
-
-                        File directory = new File(uploadDir);
-                        if (!directory.exists()) {
-                            directory.mkdirs();
-                        }
-
-                        Path path = Paths.get(uploadDir + filename);
-                        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                        imagePaths.add(uploadDir + filename);
-                    }
-                }
-            }
-            place.setImage(imagePaths);
+            place.setImage(imageFiles);
 
             int res = placeService.savePlace(place);
             switch (res) {
