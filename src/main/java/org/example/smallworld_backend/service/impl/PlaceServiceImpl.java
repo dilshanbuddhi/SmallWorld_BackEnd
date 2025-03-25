@@ -74,4 +74,13 @@ public class PlaceServiceImpl implements PlaceService {
         }
     }
 
+    @Override
+    public Object getPlace(String id) {
+        try {
+            return placeRepository.findById(Long.valueOf(id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

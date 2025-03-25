@@ -10,4 +10,5 @@ public interface PlaceCategoryService {
     int updatePlaceCategory(PlaceCategoryDTO placeCt);
 
     Object getAllPlaceCategory();
+
 }

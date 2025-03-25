@@ -10,4 +10,6 @@ public interface PlaceService {
     int updatePlace(PlaceDTO place);
 
     Object getAllPlace();
+
+    Object getPlace(String id);
 }

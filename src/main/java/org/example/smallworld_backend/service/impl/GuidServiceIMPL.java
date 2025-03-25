@@ -23,6 +23,7 @@ public class GuidServiceIMPL implements GuidService {
 
     @Override
     public int saveGuid(GuidDTO guidDTO) {
+        guidRepository.fin
         System.out.println("mekata awaaa");
 
         try {

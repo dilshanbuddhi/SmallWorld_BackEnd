@@ -56,4 +56,6 @@ public class PlaceCategoryIServiceMPL implements PlaceCategoryService {
             throw new RuntimeException(e);
         }
     }
+
+
 }
