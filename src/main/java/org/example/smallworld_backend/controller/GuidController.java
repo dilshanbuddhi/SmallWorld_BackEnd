@@ -1,5 +1,8 @@
 package org.example.smallworld_backend.controller;
 
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.smallworld_backend.dto.GuidDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.service.GuidService;
@@ -27,45 +30,17 @@ public class GuidController {
     private GuidService guidService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> saveGuid(
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam("phone_number") String phoneNumber,
-            @RequestParam("profile_photo") MultipartFile profilePhoto, // File upload
-            @RequestParam("languages") List<String> languages, // List of languages
-            @RequestParam("years_experience") int yearsExperience,
-            @RequestParam("certifications") List<String> certifications) {
-
+    public ResponseEntity<ResponseDTO> saveGuid(@RequestBody GuidDTO guidDTO, HttpServletRequest request) {
         System.out.println("saveGuid");
+// Getting the attributes set in the previous code
 
+        String email = (String) request.getAttribute("email");
+        String role = (String) request.getAttribute("role");
+
+        System.out.println("Email: " + email);
+        System.out.println("Role: " + role);
         try {
             // Create DTO and set the values
-            GuidDTO guidDTO = new GuidDTO();
-            guidDTO.setName(name);
-            guidDTO.setEmail(email);
-            guidDTO.setPhone_number(phoneNumber);
-            guidDTO.setLanguages(languages);
-            guidDTO.setExperience_of_years(String.valueOf(yearsExperience));
-            guidDTO.setCertificates(certifications);
-            guidDTO.setAvailability("Available");
-
-            System.out.println(guidDTO.getCertificates());
-
-
-            if (!profilePhoto.isEmpty()) {
-                String filename = UUID.randomUUID().toString() + "_" + profilePhoto.getOriginalFilename();
-                String uploadDir = "uploads/profile/";
-
-                File directory = new File(uploadDir);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                Path path = Paths.get(uploadDir + filename);
-                Files.copy(profilePhoto.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                guidDTO.setProfile_image(filename); // Set updated list
-            }
 
             int res = guidService.saveGuid(guidDTO);
 

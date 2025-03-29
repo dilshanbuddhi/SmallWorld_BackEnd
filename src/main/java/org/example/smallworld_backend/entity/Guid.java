@@ -21,8 +21,11 @@ public class Guid {
     private String profile_image;
     private String name;
     private String email;
+    private String phone_number;
+    private String address;
+    private String about_me;
     @ElementCollection
-    @CollectionTable(name = "languages", joinColumns = @JoinColumn(name = "guid_id"))
+    @CollectionTable(name = "guid_languages", joinColumns = @JoinColumn(name = "guid_id"))
     @Column(name = "guid_languages")
     private List<String> languages;
     private int experience_of_years;
@@ -32,11 +35,13 @@ public class Guid {
     private List<String> certifications;
     private String availability;
 
-    public Guid(User user, String profile_image, String name, String email, List<String> languages, int experience_of_years, List<String> certifications, String availability) {
-        this.user = user;
+    public Guid(String profile_image, String name, String email, String phone_number, String address, String about_me, List<String> languages, int experience_of_years, List<String> certifications, String availability) {
         this.profile_image = profile_image;
         this.name = name;
         this.email = email;
+        this.phone_number = phone_number;
+        this.address = address;
+        this.about_me = about_me;
         this.languages = languages;
         this.experience_of_years = experience_of_years;
         this.certifications = certifications;

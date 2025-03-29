@@ -16,17 +16,19 @@ public class GuidDTO {
     private String name;
     private String email;
     private String phone_number;
+    private String address;
+    private String about_me;
     private List<String> languages;
     private String experience_of_years;
     private List<String> certificates;
     private String availability;
 
-    public GuidDTO(long user_id, String profile_image, String name, String email, String phone_number, List<String> languages, String experience_of_years, List<String> certificates, String availability) {
-        this.user_id = user_id;
+    public GuidDTO(String profile_image, String name, String email, String phone_number, String about_me, List<String> languages, String experience_of_years, List<String> certificates, String availability) {
         this.profile_image = profile_image;
         this.name = name;
         this.email = email;
         this.phone_number = phone_number;
+        this.about_me = about_me;
         this.languages = languages;
         this.experience_of_years = experience_of_years;
         this.certificates = certificates;

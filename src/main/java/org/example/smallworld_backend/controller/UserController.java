@@ -23,11 +23,6 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/test")
-    public String test() {
-        System.out.println("test");
-        return "test";
-    }
 
     @PostMapping(value = "/register")
     public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Valid UserDTO userDTO) {
