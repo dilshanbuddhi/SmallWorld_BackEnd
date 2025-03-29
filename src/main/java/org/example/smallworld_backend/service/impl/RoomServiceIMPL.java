@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomServiceIMPL implements RoomService {
     @Autowired
@@ -38,6 +40,7 @@ public class RoomServiceIMPL implements RoomService {
                     roomDTO.getTotalRooms(),
                     roomDTO.getAvailableRooms()
             );
+            System.out.println(room);
             roomRepository.save(room);
             return VarList.Created;
         } catch (Exception e) {
@@ -86,6 +89,15 @@ public class RoomServiceIMPL implements RoomService {
     public Object getAllRoom() {
         try {
             return roomRepository.findAll();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Room> getRoom(Long hotelId) {
+        try {
+            return (List<Room>) roomRepository.findAllByHotelId(hotelId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -1,10 +1,13 @@
 package org.example.smallworld_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -16,6 +19,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    //@JsonIgnore
     private Hotel hotel;
     @ManyToOne
     private RoomType room_type;
@@ -23,9 +27,13 @@ public class Room {
     private String totalRooms;
     private String availableRooms;
 
-    public Room(Hotel hotelId, RoomType room_type_Id, String price, String totalRooms, String availableRooms) {
-        hotel = hotelId;
-        this.room_type = room_type_Id;
+  /*  @ElementCollection
+    @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "room_id"))
+    private List<String> bookings;*/
+
+    public Room(Hotel hotel, RoomType room_type, String price, String totalRooms, String availableRooms) {
+        this.hotel = hotel;
+        this.room_type = room_type;
         this.price = price;
         this.totalRooms = totalRooms;
         this.availableRooms = availableRooms;

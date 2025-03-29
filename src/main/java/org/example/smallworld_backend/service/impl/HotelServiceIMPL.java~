@@ -24,7 +24,15 @@ public class HotelServiceIMPL implements HotelService {
     @Override
     public int saveHotel(HotelDTO hotelDTO) {
         try {
-            Hotel hotel = modelMapper.map(hotelDTO, Hotel.class);
+            Hotel hotel = new Hotel(
+                    placeRepository.findById(Long.valueOf(hotelDTO.getPlaceID())).get(),
+                    hotelDTO.getName(),
+                    hotelDTO.getDescription(),
+                    hotelDTO.getLocation(),
+                    hotelDTO.getLatitude(),
+                    hotelDTO.getLongitude(),
+                    hotelDTO.getImage()
+            );
             hotelRepository.save(hotel);
             return VarList.OK;
         } catch (Exception e) {

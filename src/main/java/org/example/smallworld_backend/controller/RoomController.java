@@ -91,4 +91,16 @@ public class RoomController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+
+    @GetMapping("/getAllByHotelId/{hotelId}")
+    public ResponseEntity<ResponseDTO> getRoom(@PathVariable Long hotelId) {
+        System.out.println("hhhhh");
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", roomService.getRoom(hotelId)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 }

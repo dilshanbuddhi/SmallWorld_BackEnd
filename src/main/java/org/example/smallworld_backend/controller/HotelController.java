@@ -27,46 +27,10 @@ public class HotelController {
     private HotelService hotelService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> saveHotel(@RequestParam("name") String name,
-                                                 @RequestParam("placeID") String placeID,
-                                                 @RequestParam("description") String description,
-                                                 @RequestParam("location") String location,
-                                                 @RequestParam("latitude") String latitude,
-                                                 @RequestParam("longitude") String longitude,
-                                                 @RequestParam("imageFiles") List<MultipartFile> imageFiles) {
+    public ResponseEntity<ResponseDTO> saveHotel(@RequestBody HotelDTO hotelDTO) {
 
         try {
-            HotelDTO hotelDTO = new HotelDTO();
-            hotelDTO.setName(name);
-            hotelDTO.setDescription(description);
-            hotelDTO.setLocation(location);
-            hotelDTO.setLatitude(latitude);
-            hotelDTO.setLongitude(longitude);
-            hotelDTO.setPlaceID(placeID);
-
-            List<String> imagePaths = new ArrayList<>();
-            if (imageFiles != null && !imageFiles.isEmpty()) {
-                for (MultipartFile file : imageFiles) {
-                    if (!file.isEmpty()) {
-                        String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                        String uploadDir = "uploads/hotels/";
-
-                        File directory = new File(uploadDir);
-                        if (!directory.exists()) {
-                            directory.mkdirs();
-                        }
-
-                        Path path = Paths.get(uploadDir + filename);
-                        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                        imagePaths.add(uploadDir + filename);
-                    }
-                }
-            }
-            hotelDTO.setImage(imagePaths);
-
             int res = hotelService.saveHotel(hotelDTO);
-
             switch (res) {
                 case VarList.OK -> {
                     return ResponseEntity.status(HttpStatus.OK)
@@ -77,12 +41,11 @@ public class HotelController {
                             .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
                 }
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
+
     }
 
     @PutMapping("/update")

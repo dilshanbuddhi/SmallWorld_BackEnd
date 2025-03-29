@@ -12,21 +12,23 @@ import java.util.List;
 @Setter
 public class HotelDTO {
     private Long id;
-    private String placeID;
+    private String city;
     private String name;
     private String description;
     private String location;
     private String latitude;
     private String longitude;
+    private List<String> amenities;
     private List<String> image;
 
-    public HotelDTO(Long id, String placeID, String name, String description, String location, String latitude, String longitude) {
-        this.id = id;
-        this.placeID = placeID;
+    public HotelDTO(String city, String name, String description, String location, String latitude, String longitude, List<String> amenities, List<String> image) {
+        this.city = city;
         this.name = name;
         this.description = description;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.amenities = amenities;
+        this.image = image;
     }
 }

@@ -100,4 +100,5 @@ public class RoomTypeController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+
 }
