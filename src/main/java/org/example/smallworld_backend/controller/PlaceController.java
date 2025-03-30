@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.controller;
 
+import jakarta.annotation.security.PermitAll;
 import org.example.smallworld_backend.dto.PlaceDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.service.PlaceService;
@@ -7,6 +8,7 @@ import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -101,6 +103,7 @@ public class PlaceController {
     }
 
     @GetMapping("/getAll")
+    @PermitAll
     public ResponseEntity<ResponseDTO> getAllPlace() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
