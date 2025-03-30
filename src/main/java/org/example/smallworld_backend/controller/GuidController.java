@@ -1,16 +1,15 @@
 package org.example.smallworld_backend.controller;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.example.smallworld_backend.dto.GuidDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
+import org.example.smallworld_backend.entity.User;
 import org.example.smallworld_backend.service.GuidService;
+import org.example.smallworld_backend.service.impl.UserServiceImpl;
 import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +28,9 @@ public class GuidController {
     @Autowired
     private GuidService guidService;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> saveGuid(@RequestBody GuidDTO guidDTO, HttpServletRequest request) {
         System.out.println("saveGuid");
@@ -39,10 +41,19 @@ public class GuidController {
 
         System.out.println("Email: " + email);
         System.out.println("Role: " + role);
+
+        System.out.println(guidDTO.getEmail());
+        System.out.println(guidDTO.getYears_experience() + " year exp");
+
+        User user = userService.searchUserByEmail(email);
+
+        System.out.println(user.getUid() + user.getRole() + user.getEmail());
+
+
         try {
             // Create DTO and set the values
 
-            int res = guidService.saveGuid(guidDTO);
+            int res = guidService.saveGuid(guidDTO , user);
 
             switch (res) {
                 case VarList.OK -> {
@@ -63,7 +74,6 @@ public class GuidController {
     }
 
     @PutMapping("/update")
-
     public ResponseEntity<ResponseDTO> updateGuid(
             @RequestParam("name") String name,
             @RequestParam("email") String email,
@@ -75,54 +85,11 @@ public class GuidController {
 
         System.out.println("saveGuid");
 
-        try {
-            // Create DTO and set the values
-            GuidDTO guidDTO = new GuidDTO();
-            guidDTO.setName(name);
-            guidDTO.setEmail(email);
-            guidDTO.setPhone_number(phoneNumber);
-            guidDTO.setLanguages(languages);
-            guidDTO.setExperience_of_years(String.valueOf(yearsExperience));
-            guidDTO.setCertificates(certifications);
-            guidDTO.setAvailability("Available");
 
-            System.out.println(guidDTO.getCertificates());
-
-
-            if (!profilePhoto.isEmpty()) {
-                String filename = UUID.randomUUID().toString() + "_" + profilePhoto.getOriginalFilename();
-                String uploadDir = "uploads/profile/";
-
-                File directory = new File(uploadDir);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                Path path = Paths.get(uploadDir + filename);
-                Files.copy(profilePhoto.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-                guidDTO.setProfile_image(filename); // Set updated list
-            }
-
-            int res = guidService.updateGuid(guidDTO);
-
-            switch (res) {
-                case VarList.OK -> {
-                    return ResponseEntity.status(HttpStatus.OK)
-                            .body(new ResponseDTO(VarList.OK, "Success", null));
-                }
-                default -> {
-                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
-                }
-            }
-
-        } catch (Exception e) {
-            e.getMessage();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, "ghjk", null));
         }
-    }
+
 
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDTO> deleteGuid(@RequestParam("email") String email) {
@@ -138,6 +105,17 @@ public class GuidController {
                             .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
                 }
             }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ResponseDTO> getAllGuids() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", guidService.getAllGuids()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));

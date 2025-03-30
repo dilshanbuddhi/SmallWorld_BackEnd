@@ -19,19 +19,22 @@ public class GuidDTO {
     private String address;
     private String about_me;
     private List<String> languages;
-    private String experience_of_years;
-    private List<String> certificates;
+    private double years_experience;
+    private List<String> certifications;
+    private String price;
     private String availability;
 
-    public GuidDTO(String profile_image, String name, String email, String phone_number, String about_me, List<String> languages, String experience_of_years, List<String> certificates, String availability) {
+    public GuidDTO(String profile_image, String name, String email, String phone_number, String address, String about_me, List<String> languages, double years_experience, List<String> certifications, String price, String availability) {
         this.profile_image = profile_image;
         this.name = name;
         this.email = email;
         this.phone_number = phone_number;
+        this.address = address;
         this.about_me = about_me;
         this.languages = languages;
-        this.experience_of_years = experience_of_years;
-        this.certificates = certificates;
+        this.years_experience = years_experience;
+        this.certifications = certifications;
+        this.price = price;
         this.availability = availability;
     }
 }

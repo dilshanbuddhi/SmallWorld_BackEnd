@@ -69,6 +69,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    public User searchUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public int saveUser(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             return VarList.Not_Acceptable;
