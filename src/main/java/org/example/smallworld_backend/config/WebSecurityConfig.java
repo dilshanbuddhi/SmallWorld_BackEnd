@@ -52,6 +52,7 @@ public class WebSecurityConfig {
                                 "/api/v1/guid/getAll",
                                 "/api/v1/place/getAll",
                                 "/api/v1/password/sentOTP",
+                                "/api/v1/password/resetPassword",
                                 "/api/v1/auth/authenticate",
                                 "/api/v1/user/register",
                                 "/api/v1/auth/refreshToken",
