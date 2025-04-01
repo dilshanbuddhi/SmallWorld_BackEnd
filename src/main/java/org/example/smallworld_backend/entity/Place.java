@@ -23,6 +23,7 @@ public class Place {
    // @JsonIgnore
     private PlaceCategory category;
     private String description;
+    private String city;
     private String location;
     private String latitude;
     private String longitude;
@@ -32,10 +33,11 @@ public class Place {
     @Column(name = "image_path")
     private List<String> image;
 
-    public Place(String name, PlaceCategory category, String description, String location, String latitude, String longitude, List<String> image) {
+    public Place(String name, PlaceCategory category, String description,String city, String location, String latitude, String longitude, List<String> image) {
         this.name = name;
         this.category = category;
         this.description = description;
+        this.city = city;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;

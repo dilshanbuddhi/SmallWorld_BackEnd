@@ -16,15 +16,17 @@ public class PlaceDTO {
     private String name;
     private String categoryID;
     private String description;
+    private String city;
     private String location;
     private String latitude;
     private String longitude;
     private List<String> image;
 
-    public PlaceDTO(String name, String categoryID, String description, String location, String latitude, String longitude, List<String> image) {
+    public PlaceDTO(String name, String categoryID, String description, String city, String location, String latitude, String longitude, List<String> image) {
         this.name = name;
         this.categoryID = categoryID;
         this.description = description;
+        this.city = city;
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;

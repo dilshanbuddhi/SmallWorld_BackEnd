@@ -21,9 +21,10 @@ public class PlaceController {
     private PlaceService placeService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> savePlaceCategory(@RequestParam("name") String name,
+    public ResponseEntity<ResponseDTO> savePlace(@RequestParam("name") String name,
                                                          @RequestParam("categoryID") String categoryID,
                                                          @RequestParam("description") String description,
+                                                         @RequestParam("city") String city,
                                                          @RequestParam("location") String location,
                                                          @RequestParam("latitude") String latitude,
                                                          @RequestParam("longitude") String longitude,
@@ -38,6 +39,7 @@ public class PlaceController {
             place.setLatitude(latitude);
             place.setLongitude(longitude);
             place.setImage(imageFiles);
+            place.setCity(city);
 
             int res = placeService.savePlace(place);
             switch (res) {
@@ -119,6 +121,18 @@ public class PlaceController {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new ResponseDTO(VarList.OK, "Success", placeService.getPlace(id)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getAllByCity/{city}")
+    public ResponseEntity<ResponseDTO> getAllPlaceByCity(@PathVariable String city) {
+        System.out.println(city + "      qqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", placeService.getAllPlaceByCity(city)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));

@@ -40,7 +40,7 @@ public class BookingController {
 
             int res = bookingService.saveBooking(bookingDTO,request);
             switch (res) {
-                case VarList.OK -> {
+                case VarList.Created -> {
                     return ResponseEntity.status(HttpStatus.OK)
                             .body(new ResponseDTO(VarList.OK, "Success", null));
                 }

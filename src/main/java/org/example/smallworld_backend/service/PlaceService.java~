@@ -12,6 +12,4 @@ public interface PlaceService {
     Object getAllPlace();
 
     Object getPlace(String id);
-
-    Object getAllPlaceByCity(String city);
 }

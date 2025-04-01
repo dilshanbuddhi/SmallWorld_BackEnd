@@ -32,7 +32,7 @@ public class PlaceServiceImpl implements PlaceService {
             }*/
 //hj
 
-            Place placeEntity = new Place(place.getName(), placeCategoryRepository.findById(place.getCategoryID()).get(), place.getDescription(), place.getLocation(), place.getLatitude(), place.getLongitude(), place.getImage());
+            Place placeEntity = new Place(place.getName(), placeCategoryRepository.findById(place.getCategoryID()).get(), place.getDescription(),place.getCity(), place.getLocation(), place.getLatitude(), place.getLongitude(), place.getImage());
 
             // Save the place
             placeRepository.save(placeEntity);
@@ -78,6 +78,15 @@ public class PlaceServiceImpl implements PlaceService {
     public Object getPlace(String id) {
         try {
             return placeRepository.findById(Long.valueOf(id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Object getAllPlaceByCity(String city) {
+        try {
+            return placeRepository.getAllByCity(city);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
