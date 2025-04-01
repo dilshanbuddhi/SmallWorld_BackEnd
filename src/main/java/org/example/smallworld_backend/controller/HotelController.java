@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.controller;
 
+import jakarta.annotation.security.PermitAll;
 import org.example.smallworld_backend.dto.HotelDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.service.HotelService;
@@ -7,6 +8,7 @@ import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,6 +71,7 @@ public class HotelController {
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAnyAuthority('user', 'admin')")
     public ResponseEntity<ResponseDTO> getAllHotel() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
