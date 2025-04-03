@@ -1,0 +1,4 @@
+package org.example.smallworld_backend.EmailSender;
+
+public class SendEmail {
+}

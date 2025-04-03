@@ -81,5 +81,14 @@ public class GuidServiceIMPL implements GuidService {
         }
     }
 
+    @Override
+    public String getEmailbyId(String guideId) {
+        try {
+            return guidRepository.findById(Long.valueOf(guideId)).get().getEmail();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
 }

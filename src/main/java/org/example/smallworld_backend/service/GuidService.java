@@ -11,4 +11,6 @@ public interface GuidService {
     int deleteGuid(String email);
 
     Object getAllGuids();
+
+    String getEmailbyId(String guideId);
 }
