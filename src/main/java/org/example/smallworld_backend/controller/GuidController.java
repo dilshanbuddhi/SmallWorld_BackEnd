@@ -3,6 +3,7 @@ package org.example.smallworld_backend.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.smallworld_backend.dto.GuidDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
+import org.example.smallworld_backend.dto.UserDTO;
 import org.example.smallworld_backend.entity.User;
 import org.example.smallworld_backend.service.GuidService;
 import org.example.smallworld_backend.service.impl.UserServiceImpl;
@@ -122,5 +123,21 @@ public class GuidController {
         }
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<ResponseDTO> getOne(HttpServletRequest request){
+        try {
+            String email = (String) request.getAttribute("email");
+            User user = userService.searchUserByEmail(email);
+
+            GuidDTO guidDTO = guidService.getguidByUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
+                    VarList.OK, "Success", guidDTO));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
+                    VarList.Bad_Gateway, "Error", null));
+
+        }
+
+    }
 
 }

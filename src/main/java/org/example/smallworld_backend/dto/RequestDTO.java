@@ -19,4 +19,6 @@ public class RequestDTO {
     private String message;
     private String tourDate;
     private String tourDuration;
+    private String language;
+    private String status;
 }

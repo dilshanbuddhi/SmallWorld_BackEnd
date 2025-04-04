@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class User implements Serializable {
     private String lastName;
     private String country;
     private String email;
+    @JsonIgnore
     private String password;
     private String role;
 }

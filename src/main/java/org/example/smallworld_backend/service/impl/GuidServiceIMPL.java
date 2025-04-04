@@ -90,5 +90,18 @@ public class GuidServiceIMPL implements GuidService {
         }
     }
 
+    @Override
+    public GuidDTO getguidByUser(User user) {
+        try {
+            Guid guid = (Guid) guidRepository.findByUser(user);
+            GuidDTO dto = modelMapper.map(guid, GuidDTO.class);
+            dto.setYears_experience(guid.getExperience_of_years());
+            return dto;
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
 
 }

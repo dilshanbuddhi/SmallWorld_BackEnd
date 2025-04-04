@@ -13,4 +13,7 @@ public interface GuidService {
     Object getAllGuids();
 
     String getEmailbyId(String guideId);
+
+
+    GuidDTO getguidByUser(User user);
 }

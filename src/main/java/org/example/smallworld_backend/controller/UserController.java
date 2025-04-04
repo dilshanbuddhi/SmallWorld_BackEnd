@@ -1,9 +1,11 @@
 package org.example.smallworld_backend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.example.smallworld_backend.dto.AuthDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.dto.UserDTO;
+import org.example.smallworld_backend.entity.User;
 import org.example.smallworld_backend.service.UserService;
 import org.example.smallworld_backend.util.JwtUtil;
 import org.example.smallworld_backend.util.VarList;
@@ -65,5 +67,19 @@ public class UserController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ResponseDTO> getOne(HttpServletRequest request){
+        try {
+            String email = (String) request.getAttribute("email");
+            User user = userService.searchUserByEmail(email);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
+                    VarList.OK, "Success", user));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
+                    VarList.Bad_Gateway, "Error", null));
+        }
+    }
+
 
 }
