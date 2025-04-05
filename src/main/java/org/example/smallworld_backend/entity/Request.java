@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,24 +25,27 @@ public class Request {
     private String groupSize;
 
     @ManyToOne
-    private Guid guideId;
+    @JsonIgnore
+    private Guid guid;
     private String message;
     private String tourDate;
     private String tourDuration;
     private String language;
     private String status;
+    private String title;
 
-    public Request(User user, String customerEmail, String customerName, String customerPhone, String groupSize, Guid guideId, String message, String tourDate, String tourDuration, String language, String status) {
+    public Request(User user, String customerEmail, String customerName, String customerPhone, String groupSize, Guid guideId, String message, String tourDate, String tourDuration, String language, String status , String title) {
         this.user = user;
         this.customerEmail = customerEmail;
         this.customerName = customerName;
         this.customerPhone = customerPhone;
         this.groupSize = groupSize;
-        this.guideId = guideId;
+        this.guid = guideId;
         this.message = message;
         this.tourDate = tourDate;
         this.tourDuration = tourDuration;
         this.language = language;
         this.status = status;
+        this.title = title;
     }
 }

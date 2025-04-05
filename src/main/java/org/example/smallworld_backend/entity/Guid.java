@@ -16,7 +16,7 @@ import java.util.List;
 public class Guid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long guidID;
+    private long id;
     @OneToOne
     @JsonIgnore
     private User user;

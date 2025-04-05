@@ -16,7 +16,7 @@ import java.util.List;
 public class Guid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long guidID;
+    private long guidId;
     @OneToOne
     @JsonIgnore
     private User user;
@@ -30,7 +30,7 @@ public class Guid {
     @CollectionTable(name = "guid_languages", joinColumns = @JoinColumn(name = "guid_id"))
     @Column(name = "guid_languages")
     private List<String> languages;
-    private double experience_of_years;
+    private int experience_of_years;
     @ElementCollection
     @CollectionTable(name = "certifications", joinColumns = @JoinColumn(name = "guid_id"))
     @Column(name = "guid_certifications")

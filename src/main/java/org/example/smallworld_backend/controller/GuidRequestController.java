@@ -5,7 +5,10 @@ import org.example.smallworld_backend.EmailSender.EmailSender;
 import org.example.smallworld_backend.dto.GuidDTO;
 import org.example.smallworld_backend.dto.RequestDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
+import org.example.smallworld_backend.entity.Guid;
 import org.example.smallworld_backend.service.GuidService;
+import org.example.smallworld_backend.service.RequestService;
+import org.example.smallworld_backend.service.UserService;
 import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,12 @@ public class GuidRequestController {
     @Autowired
     private GuidService guidService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RequestService requestService;
+
     @PostMapping("/create")
     @PreAuthorize("hasAnyAuthority('user', 'admin')")
     public ResponseEntity<ResponseDTO> createGuidRequest(@RequestBody RequestDTO requestDTO , HttpServletRequest request) {
@@ -33,9 +42,6 @@ public class GuidRequestController {
             System.out.println(requestDTO.getCustomerName());
             System.out.println(requestDTO.getTourDuration());
             System.out.println(requestDTO.getCustomerEmail());
-
-       /* String guidemail = (String) request.getAttribute("email");
-        System.out.println(guidemail);*/
 
             String reqMessage = String.format(
                     "Dear Guide,\n\n" +
@@ -60,11 +66,35 @@ public class GuidRequestController {
             );
 
             String email = guidService.getEmailbyId(requestDTO.getGuideId());
-            System.out.println(email + "    Email    lihiniiiiiiiiiiiiiiii");
-            emailSender.sendEmail(email, reqMessage);
 
+            requestDTO.setUserEmail((String) request.getAttribute("email"));
+
+            int res = requestService.saveRequest(requestDTO);
+
+            switch (res) {
+                case VarList.OK -> {
+                    emailSender.sendEmail(email, reqMessage);
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                }
+            }
+                    } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(new ResponseDTO(VarList.Bad_Gateway, "Error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/getAllById/{id}")
+    @PreAuthorize("hasAnyAuthority('user', 'admin')")
+    public ResponseEntity<ResponseDTO> getAllRequests(@PathVariable String id) {
+        try {
+            System.out.println(id + "id");
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(VarList.OK, "Success", null));
+                    .body(new ResponseDTO(VarList.OK, "Success", requestService.getAllRequests(id)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
                     .body(new ResponseDTO(VarList.Bad_Gateway, "Error", e.getMessage()));

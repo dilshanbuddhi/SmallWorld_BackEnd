@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class GuidDTO {
-    private long guidID;
+    private long id;
     private long user_id;
     private String profile_image;
     private String name;
@@ -24,7 +24,8 @@ public class GuidDTO {
     private String price;
     private String availability;
 
-    public GuidDTO(String profile_image, String name, String email, String phone_number, String address, String about_me, List<String> languages, int years_experience, List<String> certifications, String price, String availability) {
+
+    public GuidDTO(String profile_image, String name, String email, String phone_number, String address, String about_me, List<String> languages, int years_experience, List<String> certifications, String price, String availability ) {
         this.profile_image = profile_image;
         this.name = name;
         this.email = email;
