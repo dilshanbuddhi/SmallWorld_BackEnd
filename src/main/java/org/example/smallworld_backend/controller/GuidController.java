@@ -35,7 +35,7 @@ public class GuidController {
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> saveGuid(@RequestBody GuidDTO guidDTO, HttpServletRequest request) {
         System.out.println("saveGuid");
-// Getting the attributes set in the previous code
+        //Getting the attributes set in the previous code
 
         String email = (String) request.getAttribute("email");
         String role = (String) request.getAttribute("role");

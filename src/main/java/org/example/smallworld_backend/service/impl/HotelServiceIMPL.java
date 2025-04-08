@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HotelServiceIMPL implements HotelService {
     @Autowired
@@ -62,6 +64,15 @@ public class HotelServiceIMPL implements HotelService {
         } catch (Exception e) {
             e.printStackTrace();
             return VarList.Bad_Gateway;
+        }
+    }
+
+    @Override
+    public List<Object> getAllHotelByCity(String city) {
+        try {
+            return (List<Object>) hotelRepository.findAllByCity(city);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

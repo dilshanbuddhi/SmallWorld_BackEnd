@@ -12,7 +12,6 @@ import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -70,7 +69,6 @@ public class RequestServiceIMPL implements RequestService {
     }
 
     @Override
-    @Transactional
     public int updateRequest(String id, String status) {
         try{
             requestRepository.updatereq(Long.parseLong(id), status);

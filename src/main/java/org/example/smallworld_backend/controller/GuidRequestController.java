@@ -100,4 +100,25 @@ public class GuidRequestController {
                     .body(new ResponseDTO(VarList.Bad_Gateway, "Error", e.getMessage()));
         }
     }
+
+    @PutMapping("/update/{id}/{status}")
+    @PreAuthorize("hasAnyAuthority('user', 'admin')")
+    public ResponseEntity<ResponseDTO> updateRequest(@PathVariable String id, @PathVariable String status) {
+        try {
+            int res = requestService.updateRequest(id, status);
+            switch (res) {
+                case VarList.OK -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                    .body(new ResponseDTO(VarList.Bad_Gateway, "Error", e.getMessage()));
+        }
+    }
 }
