@@ -18,7 +18,6 @@ public class Guid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne
-    @JsonIgnore
     private User user;
     private String profile_image;
     private String name;
