@@ -58,6 +58,7 @@ public class WebSecurityConfig {
                                 "/api/v1/auth/refreshToken",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
+                                "/ws/**",
                                 "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
