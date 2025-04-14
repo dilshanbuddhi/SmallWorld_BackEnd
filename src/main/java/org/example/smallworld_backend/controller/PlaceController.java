@@ -117,6 +117,7 @@ public class PlaceController {
     }
 
     @GetMapping("/getOne/{id}")
+    @PermitAll
     public ResponseEntity<ResponseDTO> getPlace(@PathVariable String id) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
@@ -128,6 +129,7 @@ public class PlaceController {
     }
 
     @GetMapping("/getAllByCity/{city}")
+    @PermitAll
     public ResponseEntity<ResponseDTO> getAllPlaceByCity(@PathVariable String city) {
         System.out.println(city + "      qqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
         try {

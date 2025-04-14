@@ -50,6 +50,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/guid/getAll",
+                                "/api/v1/place/getOne/{id}",
+                                "/api/v1/place/getAllByCity/{city}",
                                 "/api/v1/place/getAll",
                                 "/api/v1/password/sentOTP",
                                 "/api/v1/password/resetPassword",

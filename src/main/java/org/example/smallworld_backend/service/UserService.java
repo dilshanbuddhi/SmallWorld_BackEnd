@@ -13,4 +13,8 @@ public interface UserService {
     User searchUserByEmail(String email);
 
     int resetPass(UserDTO exuser);
+
+    Object getAllUser();
+
+    int updateUser(UserDTO userDTO);
 }

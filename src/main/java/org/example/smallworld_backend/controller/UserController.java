@@ -11,6 +11,7 @@ import org.example.smallworld_backend.util.JwtUtil;
 import org.example.smallworld_backend.util.VarList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -81,5 +82,37 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getAll")
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity<ResponseDTO> getAllUser() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", userService.getAllUser()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @PutMapping("/update")
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity<ResponseDTO> updateUser(@RequestBody UserDTO userDTO) {
+        try {
+            int res = userService.updateUser(userDTO);
+            switch (res) {
+                case VarList.OK -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class GuidDTO {
     private long id;
-    private long user_id;
+    private String user_id;
     private String profile_image;
     private String name;
     private String email;

@@ -130,6 +130,7 @@ public class GuidController {
             User user = userService.searchUserByEmail(email);
 
             GuidDTO guidDTO = guidService.getguidByUser(user);
+            guidDTO.setUser_id(String.valueOf(user.getUid()));
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
                     VarList.OK, "Success", guidDTO));
         } catch (Exception e) {
