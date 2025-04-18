@@ -29,8 +29,10 @@ public class HotelController {
     private HotelService hotelService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<ResponseDTO> saveHotel(@RequestBody HotelDTO hotelDTO) {
-
+        System.out.println(hotelDTO.getCity() + "mekata awa");
+        System.out.println(hotelDTO.getImage() + "mekata awa");
         try {
             int res = hotelService.saveHotel(hotelDTO);
             switch (res) {
@@ -51,6 +53,8 @@ public class HotelController {
     }
 
     @PutMapping("/update")
+    @PreAuthorize("hasAuthority('admin')")
+
     public ResponseEntity<ResponseDTO> updateHotel(@RequestBody HotelDTO hotel) {
         try {
             int res = hotelService.updateHotel(hotel);
@@ -81,8 +85,10 @@ public class HotelController {
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }
     }
-    @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDTO> deleteHotel(@RequestParam("hotelID") Long hotelID) {
+    @DeleteMapping("/delete/{hotelID}")
+    @PreAuthorize("hasAuthority('admin')")
+
+    public ResponseEntity<ResponseDTO> deleteHotel(@PathVariable("hotelID") Long hotelID) {
         try {
             int res = hotelService.deleteHotel(hotelID);
             switch (res) {

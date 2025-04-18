@@ -8,7 +8,7 @@ public interface UserService {
     int saveUser(UserDTO userDTO);
     UserDTO searchUser(String username);
 
-    void deleteUser(String email);
+    int deleteUser(String email);
 
     User searchUserByEmail(String email);
 

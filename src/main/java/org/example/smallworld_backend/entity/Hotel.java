@@ -35,4 +35,14 @@ public class Hotel {
     private List<String> image;
 
 
+    public Hotel(String city, String name, String description, String location, String latitude, String longitude, List<String> amenities, List<String> image) {
+        this.city = city;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.amenities = amenities;
+        this.image = image;
+    }
 }

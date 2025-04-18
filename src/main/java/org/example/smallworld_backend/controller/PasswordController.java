@@ -30,15 +30,20 @@ public class PasswordController {
         try {
             String email = requestBody.get("email");
             System.out.println(email + "  email");
+            // Check if the email exists in the database
             boolean exists = userService.ifEmailExists(email);
             if (!exists) {
                 return "Email does not exist";
             }
+            // Generate a random 4-digit OTP code
             System.out.println("sentOTP");
             int code = (1000 + (int) (Math.random() * 9000));
+            // Send the OTP code to the email address
             sendEmail(email, code);
+            // Return the OTP code as response
             return String.valueOf(code);
         } catch (Exception e) {
+            // if error
             return "Error: " + e.getMessage();
         }
     }
@@ -73,14 +78,13 @@ public class PasswordController {
                 });
 
                 try {
-                    // Create a MimeMessage object for the email
                     Message message = new MimeMessage(session);
                     message.setFrom(new InternetAddress(senderEmail));
                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
                     message.setSubject(subject);
                     message.setText(body);
 
-                    // Send the email
+
                     Transport.send(message);
 
                     System.out.println("OTP sent successfully to " + email);

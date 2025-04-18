@@ -9,6 +9,7 @@ import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -56,8 +57,11 @@ public class HotelServiceIMPL implements HotelService {
     }
 
     @Override
+    @Transactional
     public int deleteHotel(Long hotelID) {
         try {
+            hotelRepository.deleteHotelImages(hotelID);
+            hotelRepository.deleteAmenies(hotelID);
             hotelRepository.deleteById(Long.valueOf(hotelID));
 
             return VarList.OK;

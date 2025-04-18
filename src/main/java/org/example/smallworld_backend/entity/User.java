@@ -27,4 +27,14 @@ public class User implements Serializable {
     @JsonIgnore
     private String password;
     private String role;
+
+    public User(UUID uid, String firstName, String lastName, String country, String email, String role) {
+        this.uid = uid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.country = country;
+        this.email = email;
+        this.role = role;
+    }
 }
+

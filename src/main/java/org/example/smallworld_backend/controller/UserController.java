@@ -58,11 +58,21 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/delete/{email}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<ResponseDTO> deleteUser(@PathVariable String email) {
+        System.out.println(email + " hhhhhhhh");
         try {
-            userService.deleteUser(email);
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new ResponseDTO(VarList.OK, "Success", null));
+           int res = userService.deleteUser(email);
+            switch (res) {
+                case VarList.OK -> {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                }
+                default -> {
+                    return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                            .body(new ResponseDTO(VarList.Bad_Gateway, "Error", null));
+                }
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));

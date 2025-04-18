@@ -19,6 +19,7 @@ public class PlaceCategoryController {
     @Autowired
     private PlaceCategoryService placeCategory;
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<ResponseDTO> savePlaceCategory(@RequestBody PlaceCategoryDTO placeCt) {
         try {
             int res = placeCategory.savePlaceCategory(placeCt);
@@ -42,6 +43,7 @@ public class PlaceCategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<ResponseDTO> deletePlaceCategory(@PathVariable String id) {
         System.out.println(id + "delete");
         try {
@@ -62,6 +64,7 @@ public class PlaceCategoryController {
     }
 
    @PutMapping("/update")
+   @PreAuthorize("hasAuthority('admin')")
     public ResponseEntity<ResponseDTO> updatePlaceCategory(@RequestBody PlaceCategoryDTO placeCt) {
        System.out.println();
         try {
@@ -83,7 +86,6 @@ public class PlaceCategoryController {
     }
 
     @GetMapping("/getAll")
-
     public ResponseEntity<ResponseDTO> getAllPlaceCategory() {
         try {
             return ResponseEntity.status(HttpStatus.OK)
