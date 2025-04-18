@@ -53,6 +53,7 @@ public class WebSecurityConfig {
                                 "/api/v1/place/getOne/{id}",
                                 "/api/v1/place/getAllByCity/{city}",
                                 "/api/v1/place/getAll",
+                                "/api/v1/hotel/getAllByCity/{city}",
                                 "/api/v1/password/sentOTP",
                                 "/api/v1/password/resetPassword",
                                 "/api/v1/auth/authenticate",
