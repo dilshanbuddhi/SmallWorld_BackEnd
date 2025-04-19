@@ -7,7 +7,9 @@ import org.example.smallworld_backend.dto.UserDTO;
 import org.example.smallworld_backend.entity.User;
 import org.example.smallworld_backend.service.GuidService;
 import org.example.smallworld_backend.service.impl.UserServiceImpl;
+import org.example.smallworld_backend.util.JwtUtil;
 import org.example.smallworld_backend.util.VarList;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +28,21 @@ import java.util.UUID;
 @RequestMapping("/api/v1/guid")
 @CrossOrigin
 public class GuidController {
+
+    private final JwtUtil jwtUtil;
     @Autowired
     private GuidService guidService;
 
     @Autowired
     private UserServiceImpl userService;
+
+    public GuidController(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> saveGuid(@RequestBody GuidDTO guidDTO, HttpServletRequest request) {
@@ -58,8 +70,11 @@ public class GuidController {
 
             switch (res) {
                 case VarList.OK -> {
+                    String token = jwtUtil.generateToken(modelMapper.map(user, UserDTO.class));
+                    request.setAttribute("role", "guide");
+
                     return ResponseEntity.status(HttpStatus.OK)
-                            .body(new ResponseDTO(VarList.OK, "Success", null));
+                            .body(new ResponseDTO(VarList.OK, "Success", token));
                 }
                 default -> {
                     return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
@@ -130,7 +145,7 @@ public class GuidController {
             User user = userService.searchUserByEmail(email);
 
             GuidDTO guidDTO = guidService.getguidByUser(user);
-            guidDTO.setUser_id(String.valueOf(user.getUid()));
+            guidDTO.setUser_id(UUID.fromString(String.valueOf(user.getUid())));
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO(
                     VarList.OK, "Success", guidDTO));
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.repo;
 
+import org.example.smallworld_backend.dto.ChatMessage;
 import org.example.smallworld_backend.entity.Message;
 import org.example.smallworld_backend.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query("SELECT DISTINCT m.sender FROM Message m WHERE m.receiver = :user")
     List<User> findRecentChatPartners(@Param("user") User user);
+
+    @Query("SELECT DISTINCT m.sender FROM Message m WHERE m.receiver = :user")
+    List<User> findReceivedGuids(@Param("user") User user);
+
 }

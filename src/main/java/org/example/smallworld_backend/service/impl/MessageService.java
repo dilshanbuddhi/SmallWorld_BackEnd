@@ -43,6 +43,7 @@ public class MessageService {
     
     @Transactional(readOnly = true)
     public List<ChatMessage> getChatHistory(String user1Id, String user2Id) {
+        System.out.println(user1Id  + " DDDDDDDDDDD");
         User user1 = userRepository.findById(UUID.fromString(user1Id))
                 .orElseThrow(() -> new RuntimeException("User 1 not found"));
         
@@ -107,4 +108,12 @@ public class MessageService {
         
         return chatMessage;
     }
+
+    public List<User> getReceivedGuids(String userId) {
+        User user = userRepository.findById(UUID.fromString(userId))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return messageRepository.findReceivedGuids(user);
+    }
+
 }

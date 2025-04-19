@@ -89,7 +89,7 @@ public class GuidRequestController {
     }
 
     @GetMapping("/getAllById/{id}")
-    @PreAuthorize("hasAnyAuthority('user', 'admin')")
+    @PreAuthorize("hasAuthority('guide')")
     public ResponseEntity<ResponseDTO> getAllRequests(@PathVariable String id) {
         try {
             System.out.println(id + "id");
@@ -102,7 +102,7 @@ public class GuidRequestController {
     }
 
     @PutMapping("/update/{id}/{status}")
-    @PreAuthorize("hasAnyAuthority('user', 'admin')")
+    @PreAuthorize("hasAnyAuthority('user', 'admin' , 'guide')")
     public ResponseEntity<ResponseDTO> updateRequest(@PathVariable String id, @PathVariable String status) {
         try {
             int res = requestService.updateRequest(id, status);

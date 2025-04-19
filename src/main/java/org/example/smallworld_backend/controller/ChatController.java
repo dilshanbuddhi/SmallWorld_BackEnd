@@ -2,11 +2,13 @@ package org.example.smallworld_backend.controller;
 
 import org.example.smallworld_backend.dto.ApiResponse;
 import org.example.smallworld_backend.dto.ChatMessage;
+import org.example.smallworld_backend.dto.GuidDTO;
+import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.entity.Message;
 import org.example.smallworld_backend.entity.User;
-import org.example.smallworld_backend.repo.MessageRepository;
 import org.example.smallworld_backend.repo.UserRepository;
-import org.example.smallworld_backend.service.impl.MessageService;
+import org.example.smallworld_backend.service.GuidService;
+import org.example.smallworld_backend.util.VarList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -15,6 +17,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +34,9 @@ public class ChatController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private GuidService guidService;
 
     @MessageMapping("/chat")
     public void handleChat(@Payload ChatMessage chatMessage) {
@@ -110,4 +116,21 @@ public class ChatController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/received-guids/{userId}")
+    public ResponseEntity<ResponseDTO> getReceivedGuids(@PathVariable String userId) {
+        List<User> receivedGuids = messageService.getReceivedGuids(userId);
+        List<GuidDTO> guids = new ArrayList<>();
+
+        for (User user : receivedGuids) {
+            System.out.println(user.getUid()+ "vbhjk");
+            GuidDTO guid = new GuidDTO();
+            guid = guidService.getguidByUser(user);
+            guid.setUser_id(UUID.fromString(String.valueOf(user.getUid())));
+            guids.add(guid);
+        }
+        return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Success", guids));
+    }
+
+
 }

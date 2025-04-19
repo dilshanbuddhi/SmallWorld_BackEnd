@@ -6,13 +6,17 @@ import org.example.smallworld_backend.entity.User;
 import org.example.smallworld_backend.repo.GuidRepository;
 import org.example.smallworld_backend.repo.UserRepository;
 import org.example.smallworld_backend.service.GuidService;
+import org.example.smallworld_backend.service.UserService;
 import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GuidServiceIMPL implements GuidService {
+
+
     @Autowired
     private GuidRepository guidRepository;
 
@@ -21,8 +25,11 @@ public class GuidServiceIMPL implements GuidService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
 
     @Override
+    @Transactional
     public int saveGuid(GuidDTO guidDTO, User user) {
         System.out.println("mekata awaaa");
 
@@ -41,6 +48,7 @@ public class GuidServiceIMPL implements GuidService {
                 System.out.println(guid.getExperience_of_years());
                 //guid.setCertifications(guidDTO.getCertifications());
                 guidRepository.save(guid);
+                userRepository.updaterole(user.getEmail(), "guide");
                 return VarList.OK;
             }
         } catch (Exception e) {
@@ -102,6 +110,5 @@ public class GuidServiceIMPL implements GuidService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
 
 }
