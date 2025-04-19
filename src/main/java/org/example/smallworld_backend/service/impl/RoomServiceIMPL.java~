@@ -10,7 +10,6 @@ import org.example.smallworld_backend.util.VarList;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -52,14 +51,11 @@ public class RoomServiceIMPL implements RoomService {
         }
 
     @Override
-    @Transactional
     public int deleteRoom(Long roomID) {
         try {
             if (!roomRepository.existsById(roomID)) {
                 return VarList.Bad_Request;
             }
-            roomRepository.deleteImages(roomID);
-
             roomRepository.deleteById(Long.valueOf(roomID));
             return VarList.OK;
         } catch (Exception e) {

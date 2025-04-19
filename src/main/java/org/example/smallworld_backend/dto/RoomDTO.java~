@@ -20,7 +20,6 @@ public class RoomDTO {
     private String price;
     private String totalRooms;
     private String availableRooms;
-    private List<String> images;
 
     public RoomDTO(long hotel_id, long room_type_Id, String price, String totalRooms, String availableRooms) {
         this.hotel_id = hotel_id;

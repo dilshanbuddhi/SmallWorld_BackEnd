@@ -27,11 +27,21 @@ public class Room {
     private String totalRooms;
     private String availableRooms;
 
-  /*  @ElementCollection
-    @CollectionTable(name = "room_amenities", joinColumns = @JoinColumn(name = "room_id"))
-    private List<String> bookings;*/
+    @ElementCollection
+    @CollectionTable(name = "room_images", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "image_path")
+    private List<String> images;
 
-    public Room(Hotel hotel, RoomType room_type, String price, String totalRooms, String availableRooms) {
+    public Room(Hotel hotel, RoomType room_type, String price, String totalRooms, String availableRooms, List<String> images) {
+        this.hotel = hotel;
+        this.room_type = room_type;
+        this.price = price;
+        this.totalRooms = totalRooms;
+        this.availableRooms = availableRooms;
+        this.images = images;
+    }
+
+    public Room( Hotel hotel, RoomType room_type, String price, String totalRooms, String availableRooms) {
         this.hotel = hotel;
         this.room_type = room_type;
         this.price = price;

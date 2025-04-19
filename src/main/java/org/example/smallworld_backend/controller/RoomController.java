@@ -20,6 +20,11 @@ public class RoomController {
     @PostMapping("/save")
     public ResponseEntity<ResponseDTO> saveRoom(@RequestBody RoomDTO roomDTO) {
         try {
+            System.out.println("[");
+            for(String s : roomDTO.getImages()){
+                System.out.println(s);
+            }
+            System.out.println("]");
             int res = roomService.saveRoom(roomDTO);
             switch (res) {
                 case VarList.Created -> {

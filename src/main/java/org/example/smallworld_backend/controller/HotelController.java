@@ -75,7 +75,7 @@ public class HotelController {
     }
 
     @GetMapping("/getAll")
-    @PreAuthorize("hasAnyAuthority('user', 'admin')")
+    @PreAuthorize("hasAnyAuthority('user', 'admin' , 'guide')")
     public ResponseEntity<ResponseDTO> getAllHotel() {
         try {
             return ResponseEntity.status(HttpStatus.OK)

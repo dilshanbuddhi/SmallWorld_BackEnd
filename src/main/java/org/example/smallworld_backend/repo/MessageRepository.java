@@ -25,4 +25,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("SELECT DISTINCT m.sender FROM Message m WHERE m.receiver = :user")
     List<User> findReceivedGuids(@Param("user") User user);
 
+    @Query("SELECT DISTINCT m.receiver FROM Message m WHERE m.sender = :user")
+    List<User> findReceivedUsers(User user);
 }

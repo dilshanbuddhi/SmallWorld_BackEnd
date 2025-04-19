@@ -132,5 +132,10 @@ public class ChatController {
         return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Success", guids));
     }
 
+    @GetMapping("/getClients/{guidId}")
+    public ResponseEntity<ResponseDTO> getClients(@PathVariable String guidId) {
+        List<User> clients = messageService.getClients(guidId);
+        return ResponseEntity.ok(new ResponseDTO(VarList.OK, "Success", clients));
+    }
 
 }

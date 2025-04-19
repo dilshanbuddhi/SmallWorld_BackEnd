@@ -116,4 +116,10 @@ public class MessageService {
         return messageRepository.findReceivedGuids(user);
     }
 
+    public List<User> getClients(String guidId) {
+        User user = userRepository.findById(UUID.fromString(guidId))
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return messageRepository.findReceivedUsers(user);
+    }
 }

@@ -19,4 +19,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query(value = "UPDATE room r SET r.available_rooms = available_rooms - ?1 WHERE r.id = ?2", nativeQuery = true)
     void updateRoomsQTY(int numRooms, int roomId);
 
+    @Modifying
+    @Query(value = "DELETE FROM room_images WHERE room_id = ?1", nativeQuery = true)
+    void deleteImages(Long roomID);
 }
