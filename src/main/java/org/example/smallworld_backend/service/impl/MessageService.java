@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -57,7 +58,7 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
     
-    @Transactional
+   /* @Transactional
     public void markMessagesAsRead(String userId, String senderId) {
         User receiver = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
@@ -72,14 +73,39 @@ public class MessageService {
         
         unreadMessages.forEach(m -> m.setRead(true));
         messageRepository.saveAll(unreadMessages);
+    }*/
+
+    @Transactional
+    public boolean markMessagesAsRead(String userId, String guidId) {
+        Optional<User> receiver = userRepository.findById(UUID.fromString(userId));
+        Optional<User> sender = userRepository.findById(UUID.fromString(guidId));
+
+        if (!receiver.isPresent() || !sender.isPresent()) {
+            return false;
+        }
+
+        List<Message> unreadMessages = messageRepository.findUnreadMessagesBySenderAndReceiver(
+                sender.get(), receiver.get());
+
+        for (Message message : unreadMessages) {
+            message.setRead(true);
+        }
+
+        messageRepository.saveAll(unreadMessages);
+        return true;
     }
     
     @Transactional(readOnly = true)
-    public int getUnreadMessageCount(String userId) {
+    public int getUnreadMessageCount(String userId, String guidId) {
+        System.out.println(userId + "nnnnnnnnn");
+        System.out.println(guidId + "mmmmmmmmm");
         User user = userRepository.findById(UUID.fromString(userId))
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User guid = userRepository.findById(UUID.fromString(guidId))
+                .orElseThrow(() -> new RuntimeException("Guid not found"));
         
-        return messageRepository.countUnreadMessages(user);
+        return messageRepository.countUnreadMessages(user , guid);
     }
     
     @Transactional(readOnly = true)

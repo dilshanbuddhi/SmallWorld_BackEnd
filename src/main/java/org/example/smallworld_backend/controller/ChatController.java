@@ -76,24 +76,21 @@ public class ChatController {
     }
 
     @PostMapping("/mark-read")
-    public ResponseEntity<ApiResponse<Void>> markMessagesAsRead(
+    public ResponseEntity<ApiResponse<Boolean>> markMessagesAsRead(
             @RequestParam("userId") String userId,
-            @RequestParam("senderId") String senderId) {
+            @RequestParam("guidId") String guidId) {
 
-        messageService.markMessagesAsRead(userId, senderId);
-
-        ApiResponse<Void> response = new ApiResponse<>();
-        response.setCode(200);
-        response.setMessage("Messages marked as read");
-
-        return ResponseEntity.ok(response);
+        boolean success = messageService.markMessagesAsRead(userId, guidId);
+        return ResponseEntity.ok(new ApiResponse<>(200, "Messages marked as read successfully", success));
     }
 
     @GetMapping("/unread-count")
     public ResponseEntity<ApiResponse<Integer>> getUnreadCount(
-            @RequestParam("userId") String userId) {
+            @RequestParam("userId") String userId,  // user id eka kiyanne metnadi msg eka awe mata e kiynne mn reciever
+            @RequestParam("guidId") String guidId) {  // methnadi enne guid id eka e kynne mu thama mt msg eka dmme sender mu
 
-        int count = messageService.getUnreadMessageCount(userId);
+        // meke userId + receiverId deka yawanna puluwan unread message count balanna
+        int count = messageService.getUnreadMessageCount(userId, guidId);
 
         ApiResponse<Integer> response = new ApiResponse<>();
         response.setCode(200);
@@ -102,6 +99,7 @@ public class ChatController {
 
         return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/chat-partners")
     public ResponseEntity<ApiResponse<List<User>>> getRecentChatPartners(

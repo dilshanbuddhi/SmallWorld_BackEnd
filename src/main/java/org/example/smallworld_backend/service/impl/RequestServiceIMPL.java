@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.service.impl;
 
+import org.example.smallworld_backend.EmailSender.EmailSender;
 import org.example.smallworld_backend.dto.RequestDTO;
 import org.example.smallworld_backend.entity.Guid;
 import org.example.smallworld_backend.entity.Request;
@@ -18,6 +19,9 @@ import java.util.Optional;
 
 @Service
 public class RequestServiceIMPL implements RequestService {
+
+    @Autowired
+    private EmailSender emailSender;
 
     @Autowired
     private RequestRepository requestRepository;
@@ -73,6 +77,14 @@ public class RequestServiceIMPL implements RequestService {
     @Transactional
     public int updateRequest(String id, String status) {
         try{
+            if (status.equals("accepted")) {
+                Request request = requestRepository.findById(Long.parseLong(id)).get();
+                String mailMassage = "Hello " + request.getCustomerName() + "! Your request to join " + request.getGuid().getName() + " tour has been accepted. You can join the tour on " + request.getTourDate() + " . See you then!"+
+                        "\n now you can contact through " + request.getGuid().getEmail() +"\n"+ request.getGuid().getPhone_number() +
+                        "Happy touring!"
+                        ;
+                emailSender.sendEmail(request.getCustomerEmail(), mailMassage);
+            }
             requestRepository.updatereq(Long.parseLong(id), status);
             return VarList.OK;
         } catch (Exception e) {
