@@ -1,5 +1,6 @@
 package org.example.smallworld_backend.controller;
 
+import jakarta.validation.Valid;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.dto.RoomDTO;
 import org.example.smallworld_backend.service.RoomService;
@@ -18,7 +19,7 @@ public class RoomController {
     private RoomService roomService;
 
     @PostMapping("/save")
-    public ResponseEntity<ResponseDTO> saveRoom(@RequestBody RoomDTO roomDTO) {
+    public ResponseEntity<ResponseDTO> saveRoom(@Valid @RequestBody RoomDTO roomDTO) {
         try {
             System.out.println("[");
             for(String s : roomDTO.getImages()){

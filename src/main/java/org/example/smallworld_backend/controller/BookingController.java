@@ -1,6 +1,7 @@
 package org.example.smallworld_backend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.aspectj.weaver.ast.Var;
 import org.example.smallworld_backend.dto.BookingDTO;
 import org.example.smallworld_backend.dto.ResponseDTO;
 import org.example.smallworld_backend.entity.Room;
@@ -50,6 +51,17 @@ public class BookingController {
                 }
             }
         } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<ResponseDTO> getAll(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ResponseDTO(VarList.OK, "Success", bookingService.getAll()));
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
         }

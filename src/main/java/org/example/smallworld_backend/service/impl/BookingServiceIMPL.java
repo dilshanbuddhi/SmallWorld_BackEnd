@@ -77,4 +77,14 @@ public class BookingServiceIMPL implements BookingService {
             return VarList.Bad_Gateway;
         }
     }
+
+    @Override
+    public Object getAll() {
+        try {
+            return bookingRepository.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+            return VarList.Bad_Gateway;
+        }
+    }
 }

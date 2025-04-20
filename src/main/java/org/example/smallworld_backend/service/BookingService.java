@@ -5,4 +5,6 @@ import org.example.smallworld_backend.dto.BookingDTO;
 
 public interface BookingService {
     int saveBooking(BookingDTO bookingDTO , HttpServletRequest request);
+
+    Object getAll();
 }
